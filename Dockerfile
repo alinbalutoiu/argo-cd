@@ -9,17 +9,17 @@ FROM golang:1.14.12 as builder
 RUN echo 'deb http://deb.debian.org/debian buster-backports main' >> /etc/apt/sources.list
 
 RUN apt-get update && apt-get install -y \
-    openssh-server \
-    nginx \
-    fcgiwrap \
-    git \
-    git-lfs \
-    make \
-    wget \
-    gcc \
-    zip && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+  openssh-server \
+  nginx \
+  fcgiwrap \
+  git \
+  git-lfs \
+  make \
+  wget \
+  gcc \
+  zip && \
+  apt-get clean && \
+  rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 WORKDIR /tmp
 
@@ -43,17 +43,17 @@ USER root
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN groupadd -g 999 argocd && \
-    useradd -r -u 999 -g argocd argocd && \
-    mkdir -p /home/argocd && \
-    chown argocd:0 /home/argocd && \
-    chmod g=u /home/argocd && \
-    chmod g=u /etc/passwd && \
-    apt-get update && \
-    apt-get dist-upgrade -y && \
-    apt-get install -y git git-lfs python3-pip tini gpg && \
-    apt-get clean && \
-    pip3 install awscli==1.18.80 && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+  useradd -r -u 999 -g argocd argocd && \
+  mkdir -p /home/argocd && \
+  chown argocd:0 /home/argocd && \
+  chmod g=u /home/argocd && \
+  chmod g=u /etc/passwd && \
+  apt-get update && \
+  apt-get dist-upgrade -y && \
+  apt-get install -y git git-lfs python3-pip tini gpg && \
+  apt-get clean && \
+  pip3 install awscli==1.18.80 && \
+  rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 COPY hack/git-ask-pass.sh /usr/local/bin/git-ask-pass.sh
 COPY hack/gpg-wrapper.sh /usr/local/bin/gpg-wrapper.sh
@@ -68,14 +68,14 @@ COPY uid_entrypoint.sh /usr/local/bin/uid_entrypoint.sh
 
 # support for mounting configuration from a configmap
 RUN mkdir -p /app/config/ssh && \
-    touch /app/config/ssh/ssh_known_hosts && \
-    ln -s /app/config/ssh/ssh_known_hosts /etc/ssh/ssh_known_hosts 
+  touch /app/config/ssh/ssh_known_hosts && \
+  ln -s /app/config/ssh/ssh_known_hosts /etc/ssh/ssh_known_hosts 
 
 RUN mkdir -p /app/config/tls
 RUN mkdir -p /app/config/gpg/source && \
-    mkdir -p /app/config/gpg/keys && \
-    chown argocd /app/config/gpg/keys && \
-    chmod 0700 /app/config/gpg/keys
+  mkdir -p /app/config/gpg/keys && \
+  chown argocd /app/config/gpg/keys && \
+  chmod 0700 /app/config/gpg/keys
 
 # workaround ksonnet issue https://github.com/ksonnet/ksonnet/issues/298
 ENV USER=argocd
@@ -119,9 +119,9 @@ RUN make argocd-all
 
 ARG BUILD_ALL_CLIS=true
 RUN if [ "$BUILD_ALL_CLIS" = "true" ] ; then \
-    make BIN_NAME=argocd-darwin-amd64 GOOS=darwin argocd-all && \
-    make BIN_NAME=argocd-windows-amd64.exe GOOS=windows argocd-all \
-    ; fi
+  make BIN_NAME=argocd-darwin-amd64 GOOS=darwin argocd-all && \
+  make BIN_NAME=argocd-windows-amd64.exe GOOS=windows argocd-all \
+  ; fi
 
 ####################################################################################################
 # Final image
