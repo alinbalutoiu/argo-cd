@@ -296,7 +296,7 @@ endif
 # The "BUILD_ALL_CLIS" argument is to skip building the CLIs for darwin and windows
 # which would take a really long time.
 armimage:
-	docker build -t $(IMAGE_PREFIX)argocd:$(IMAGE_TAG)-arm . --build-arg BUILD_ALL_CLIS="false"
+	docker build -t $(IMAGE_PREFIX)argocd:$(IMAGE_TAG)-arm . --build-arg BUILD_ALL_CLIS="false" --build-arg INSTALL_KSONNET="false"
 
 .PHONY: builder-image
 builder-image:
