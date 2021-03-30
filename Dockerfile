@@ -28,7 +28,10 @@ ADD hack/installers installers
 ADD hack/tool-versions.sh .
 
 RUN ./install.sh packr-linux
-RUN ./install.sh ksonnet-linux
+ARG INSTALL_KSONNET=true
+RUN if [ "$INSTALL_KSONNET" = "true" ] ; then \
+    ./install.sh ksonnet-linux \
+    ; fi
 RUN ./install.sh helm2-linux
 RUN ./install.sh helm-linux
 RUN ./install.sh kustomize-linux
@@ -58,8 +61,10 @@ RUN groupadd -g 999 argocd && \
 COPY hack/git-ask-pass.sh /usr/local/bin/git-ask-pass.sh
 COPY hack/gpg-wrapper.sh /usr/local/bin/gpg-wrapper.sh
 COPY hack/git-verify-wrapper.sh /usr/local/bin/git-verify-wrapper.sh
-COPY --from=builder /usr/local/bin/ks /usr/local/bin/ks
-COPY --from=builder /usr/local/bin/helm2 /usr/local/bin/helm2
+
+# Copy ks if exists
+COPY --from=builder /usr/local/bin/helm2 /usr/local/bin/ks* /usr/local/bin/
+#COPY --from=builder /usr/local/bin/helm2 /usr/local/bin/helm2
 COPY --from=builder /usr/local/bin/helm /usr/local/bin/helm
 COPY --from=builder /usr/local/bin/kustomize /usr/local/bin/kustomize
 # script to add current (possibly arbitrary) user to /etc/passwd at runtime
