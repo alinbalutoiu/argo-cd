@@ -34,6 +34,7 @@ steps:
     tags: linux-arm64-${DRONE_BRANCH}
     build_args:
       - BUILD_ALL_CLIS="false"
+      - INSTALL_KSONNET="false"
     username:
       from_secret: docker_username
     password:
@@ -56,6 +57,7 @@ steps:
     tags: linux-arm-${DRONE_BRANCH}
     build_args:
       - BUILD_ALL_CLIS="false"
+      - INSTALL_KSONNET="false"
     username:
       from_secret: docker_username
     password:
