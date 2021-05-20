@@ -47,7 +47,6 @@ import (
 	"github.com/argoproj/argo-cd/util/helm"
 	"github.com/argoproj/argo-cd/util/io"
 	"github.com/argoproj/argo-cd/util/ksonnet"
-	argokube "github.com/argoproj/argo-cd/util/kube"
 	"github.com/argoproj/argo-cd/util/kustomize"
 	"github.com/argoproj/argo-cd/util/security"
 	"github.com/argoproj/argo-cd/util/text"
@@ -687,12 +686,6 @@ func GenerateManifests(appPath, repoRoot, revision string, q *apiclient.Manifest
 		}
 
 		for _, target := range targets {
-			if q.AppLabelKey != "" && q.AppName != "" && !kube.IsCRD(target) {
-				err = argokube.SetAppInstanceLabel(target, q.AppLabelKey, q.AppName)
-				if err != nil {
-					return nil, err
-				}
-			}
 			manifestStr, err := json.Marshal(target.Object)
 			if err != nil {
 				return nil, err

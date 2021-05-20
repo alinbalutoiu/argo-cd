@@ -49,7 +49,6 @@ import (
 	"github.com/argoproj/argo-cd/util/errors"
 	"github.com/argoproj/argo-cd/util/git"
 	argoio "github.com/argoproj/argo-cd/util/io"
-	argokube "github.com/argoproj/argo-cd/util/kube"
 	"github.com/argoproj/argo-cd/util/templates"
 	"github.com/argoproj/argo-cd/util/text/label"
 )
@@ -913,11 +912,6 @@ func groupObjsForDiff(resources *application.ManagedResourcesResponse, objs map[
 			continue
 		}
 		if local, ok := objs[key]; ok || live != nil {
-			if local != nil && !kube.IsCRD(local) {
-				err = argokube.SetAppInstanceLabel(local, argoSettings.AppLabelKey, appName)
-				errors.CheckError(err)
-			}
-
 			items = append(items, objKeyLiveTarget{key, live, local})
 			delete(objs, key)
 		}
