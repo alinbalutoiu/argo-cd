@@ -7,7 +7,7 @@ on:
     branches: [release-2.0-arm-gh]
 jobs:
   prepare-release:
-    name: Perform automatic release on trigger ${{ github.ref }}
+    name: Build linux/${{ matrix.arch }} docker image
     runs-on: ubuntu-latest
     strategy:
       matrix:
