@@ -62,6 +62,9 @@ jobs:
           context: .
           file: Dockerfile
           platforms: linux/${{ matrix.arch }}
+          build-args: |
+            BUILD_ALL_CLIS=${{ matrix.arch == 'amd64' }}
+            INSTALL_KSONNET=${{ matrix.arch == 'amd64' }}
           push: false
           tags: |
             alinbalutoiu/argocd:linux-${{ matrix.arch }}
